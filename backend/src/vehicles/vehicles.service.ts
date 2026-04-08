@@ -10,7 +10,7 @@ import { Vehicle } from './vehicle.entity';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { VEHICLE_SERVICE } from 'src/constants';
+import { VEHICLE_SERVICE } from '../constants';
 
 @Injectable()
 export class VehiclesService {
