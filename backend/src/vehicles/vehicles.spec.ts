@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 import { Vehicle } from './vehicle.entity';
+import { VEHICLE_SERVICE } from '../constants';
 
 const mockVehicle: Vehicle = {
   id: 1,
@@ -25,6 +26,10 @@ const mockRepository = () => ({
   remove: jest.fn(),
 });
 
+const mockClientProxy = {
+  emit: jest.fn(),
+};
+
 describe('VehiclesService', () => {
   let service: VehiclesService;
   let repo: jest.Mocked<Repository<Vehicle>>;
@@ -34,11 +39,14 @@ describe('VehiclesService', () => {
       providers: [
         VehiclesService,
         { provide: getRepositoryToken(Vehicle), useFactory: mockRepository },
+        { provide: VEHICLE_SERVICE, useValue: mockClientProxy },
       ],
     }).compile();
 
     service = module.get<VehiclesService>(VehiclesService);
     repo = module.get(getRepositoryToken(Vehicle));
+
+    jest.clearAllMocks();
   });
 
   describe('create', () => {
@@ -65,6 +73,10 @@ describe('VehiclesService', () => {
       });
       expect(repo.create).toHaveBeenCalled();
       expect(repo.save).toHaveBeenCalled();
+      expect(mockClientProxy.emit).toHaveBeenCalledWith(
+        'vehicle_created',
+        mockVehicle,
+      );
       expect(result).toEqual(mockVehicle);
     });
 
@@ -84,6 +96,7 @@ describe('VehiclesService', () => {
 
       expect(repo.create).not.toHaveBeenCalled();
       expect(repo.save).not.toHaveBeenCalled();
+      expect(mockClientProxy.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -144,6 +157,10 @@ describe('VehiclesService', () => {
         ...mockVehicle,
         modelo: 'Camry',
       });
+      expect(mockClientProxy.emit).toHaveBeenCalledWith(
+        'vehicle_updated',
+        updated,
+      );
       expect(result.modelo).toBe('Camry');
     });
 
@@ -154,6 +171,7 @@ describe('VehiclesService', () => {
         NotFoundException,
       );
       expect(repo.save).not.toHaveBeenCalled();
+      expect(mockClientProxy.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -165,6 +183,9 @@ describe('VehiclesService', () => {
       await service.remove(1);
 
       expect(repo.remove).toHaveBeenCalledWith(mockVehicle);
+      expect(mockClientProxy.emit).toHaveBeenCalledWith('vehicle_removed', {
+        id: mockVehicle.id,
+      });
     });
 
     it('lança NotFoundException quando veículo não existe', async () => {
@@ -172,6 +193,7 @@ describe('VehiclesService', () => {
 
       await expect(service.remove(99)).rejects.toThrow(NotFoundException);
       expect(repo.remove).not.toHaveBeenCalled();
+      expect(mockClientProxy.emit).not.toHaveBeenCalled();
     });
   });
 });
