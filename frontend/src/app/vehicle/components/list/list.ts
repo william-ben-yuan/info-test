@@ -1,56 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Vehicle } from '../../models/vehicle.model';
 import { VehicleService } from '../../services/vehicle.service';
 import { CommonModule } from '@angular/common';
-import { VehicleFormComponent } from '../form/form';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'vehicle-list',
   templateUrl: './list.html',
   standalone: true,
-  imports: [CommonModule, VehicleFormComponent],
+  imports: [CommonModule, RouterLink],
   styleUrls: ['./list.css'],
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
-  selected: Vehicle | null = null;
-  showForm = false;
 
-  constructor(private service: VehicleService) {}
+  constructor(
+    private service: VehicleService,
+    private router: Router,
+    private cdr: ChangeDetectorRef, // Injetado para forçar a detecção de mudanças após carregar os dados
+  ) {}
 
   ngOnInit(): void {
     this.load();
   }
 
   load(): void {
-    this.service.getAll().subscribe((data) => (this.vehicles = data));
+    this.service.getAll().subscribe((data) => {
+      this.vehicles = data;
+      this.cdr.detectChanges();
+    });
   }
 
-  newVehicle(): void {
-    this.selected = null;
-    this.showForm = true;
-  }
-
-  edit(vehicle: Vehicle): void {
-    this.selected = { ...vehicle };
-    this.showForm = true;
+  edit(id: number): void {
+    this.router.navigate(['/vehicles', id, 'edit']);
   }
 
   delete(id: number): void {
     if (!confirm('Confirma exclusão?')) return;
     this.service.delete(id).subscribe(() => this.load());
-  }
-
-  onSave(vehicle: Vehicle): void {
-    const op = vehicle.id ? this.service.update(vehicle.id, vehicle) : this.service.create(vehicle);
-
-    op.subscribe(() => {
-      this.showForm = false;
-      this.load();
-    });
-  }
-
-  onCancel(): void {
-    this.showForm = false;
   }
 }

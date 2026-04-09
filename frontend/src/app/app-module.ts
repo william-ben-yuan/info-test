@@ -4,14 +4,21 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { App } from './app';
 import { VehicleFormComponent } from './vehicle/components/form/form';
 import { VehicleListComponent } from './vehicle/components/list/list';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing-module';
 
 @NgModule({
   declarations: [App],
-  imports: [BrowserModule, ReactiveFormsModule, VehicleFormComponent, VehicleListComponent],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    VehicleFormComponent,
+    VehicleListComponent,
+    AppRoutingModule,
+  ],
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
   ],

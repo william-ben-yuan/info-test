@@ -1,33 +1,41 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-grid">
-    <div class="field">
-      <label>Placa</label>
-      <input formControlName="placa" />
-    </div>
-    <div class="field">
-      <label>Chassi</label>
-      <input formControlName="chassi" />
-    </div>
-    <div class="field">
-      <label>Renavam</label>
-      <input formControlName="renavam" />
-    </div>
-    <div class="field">
-      <label>Modelo</label>
-      <input formControlName="modelo" />
-    </div>
-    <div class="field">
-      <label>Marca</label>
-      <input formControlName="marca" />
-    </div>
-    <div class="field">
-      <label>Ano</label>
-      <input formControlName="ano" type="number" />
-    </div>
+<div class="container">
+  <div class="header">
+    <h1>{{ vehicleId ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
   </div>
 
-  <div class="form-actions">
-    <button type="button" class="btn-cancel" (click)="cancel.emit()">Cancelar</button>
-    <button type="submit" class="btn-primary">Salvar</button>
+  <div class="form-wrapper">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="field">
+          <label>Placa</label>
+          <input formControlName="placa" />
+        </div>
+        <div class="field">
+          <label>Chassi</label>
+          <input formControlName="chassi" />
+        </div>
+        <div class="field">
+          <label>Renavam</label>
+          <input formControlName="renavam" />
+        </div>
+        <div class="field">
+          <label>Modelo</label>
+          <input formControlName="modelo" />
+        </div>
+        <div class="field">
+          <label>Marca</label>
+          <input formControlName="marca" />
+        </div>
+        <div class="field">
+          <label>Ano</label>
+          <input formControlName="ano" type="number" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
   </div>
-</form>
+</div>

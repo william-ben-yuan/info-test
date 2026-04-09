@@ -1,15 +1,7 @@
 <div class="container">
   <div class="header">
     <h1>Veículos</h1>
-    <button class="btn-primary" (click)="newVehicle()">+ Novo Veículo</button>
-  </div>
-
-  <div class="form-wrapper" *ngIf="showForm">
-    <vehicle-form
-      [vehicle]="selected"
-      (save)="onSave($event)"
-      (cancel)="onCancel()">
-    </vehicle-form>
+    <button class="btn-primary" routerLink="/vehicles/new">+ Novo Veículo</button>
   </div>
 
   <table>
@@ -28,7 +20,7 @@
         <td>{{ v.marca }}</td>
         <td>{{ v.ano }}</td>
         <td class="actions">
-          <button class="btn-edit" (click)="edit(v)">Editar</button>
+          <button class="btn-edit" (click)="edit(v.id!)">Editar</button>
           <button class="btn-delete" (click)="delete(v.id!)">Excluir</button>
         </td>
       </tr>
