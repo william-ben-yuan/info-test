@@ -4,12 +4,13 @@ import { VehicleService } from '../../services/vehicle.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AlertComponent } from '../../../../shared/components/alert/alert';
+import { LayoutComponent } from '../../../../shared/components/layout/layout';
 
 @Component({
   selector: 'vehicle-list',
   templateUrl: './list.html',
   standalone: true,
-  imports: [CommonModule, RouterLink, AlertComponent],
+  imports: [CommonModule, RouterLink, AlertComponent, LayoutComponent],
   styleUrls: ['./list.css'],
 })
 export class VehicleListComponent implements OnInit {

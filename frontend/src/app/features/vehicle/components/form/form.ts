@@ -13,12 +13,13 @@ import { VehicleService } from '../../services/vehicle.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertComponent } from '../../../../shared/components/alert/alert';
+import { LayoutComponent } from '../../../../shared/components/layout/layout';
 
 @Component({
   selector: 'vehicle-form',
   templateUrl: './form.html',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, AlertComponent],
+  imports: [ReactiveFormsModule, CommonModule, AlertComponent, LayoutComponent],
   styleUrls: ['./form.css'],
 })
 export class VehicleFormComponent implements OnInit {

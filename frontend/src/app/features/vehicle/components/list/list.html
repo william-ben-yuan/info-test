@@ -1,13 +1,13 @@
-<app-layout>
+<layout>
   <div class="header">
     <h1>Veículos</h1>
     <button class="btn-primary" routerLink="/vehicles/new">+ Novo Veículo</button>
   </div>
 
-  <app-alert
+  <alert
     [message]="errorMessage"
     (close)="errorMessage = null">
-  </app-alert>
+  </alert>
 
   <table>
     <thead>
@@ -31,4 +31,4 @@
       </tr>
     </tbody>
   </table>
-</app-layout>
+</layout>

@@ -1,12 +1,12 @@
-<app-layout>
+<layout>
   <div class="header">
     <h1>{{ vehicleId ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
   </div>
 
-  <app-alert
+  <alert
     [message]="errorMessage"
     (close)="errorMessage = null">
-  </app-alert>
+  </alert>
 
   <div class="form-wrapper">
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -43,4 +43,4 @@
       </div>
     </form>
   </div>
-</app-layout>
+</layout>

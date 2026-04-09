@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VehicleListComponent } from './vehicle/components/list/list';
-import { VehicleFormComponent } from './vehicle/components/form/form';
+import { VehicleListComponent } from './features/vehicle/components/list/list';
+import { VehicleFormComponent } from './features/vehicle/components/form/form';
 
 const routes: Routes = [
   { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
