@@ -3,21 +3,23 @@ import { Vehicle } from '../../models/vehicle.model';
 import { VehicleService } from '../../services/vehicle.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { AlertComponent } from '../../../../shared/components/alert/alert';
 
 @Component({
   selector: 'vehicle-list',
   templateUrl: './list.html',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AlertComponent],
   styleUrls: ['./list.css'],
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
+  errorMessage: string | null = null;
 
   constructor(
     private service: VehicleService,
     private router: Router,
-    private cdr: ChangeDetectorRef, // Injetado para forçar a detecção de mudanças após carregar os dados
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -25,9 +27,16 @@ export class VehicleListComponent implements OnInit {
   }
 
   load(): void {
-    this.service.getAll().subscribe((data) => {
-      this.vehicles = data;
-      this.cdr.detectChanges();
+    this.errorMessage = null;
+    this.service.getAll().subscribe({
+      next: (data) => {
+        this.vehicles = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMessage = err?.error?.message || 'Erro ao carregar veículos.';
+        this.cdr.detectChanges();
+      },
     });
   }
 
@@ -37,6 +46,12 @@ export class VehicleListComponent implements OnInit {
 
   delete(id: number): void {
     if (!confirm('Confirma exclusão?')) return;
-    this.service.delete(id).subscribe(() => this.load());
+    this.service.delete(id).subscribe({
+      next: () => this.load(),
+      error: (err) => {
+        this.errorMessage = err?.error?.message || 'Erro ao excluir veículo.';
+        this.cdr.detectChanges();
+      },
+    });
   }
 }

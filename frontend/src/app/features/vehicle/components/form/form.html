@@ -1,7 +1,12 @@
-<div class="container">
+<app-layout>
   <div class="header">
     <h1>{{ vehicleId ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
   </div>
+
+  <app-alert
+    [message]="errorMessage"
+    (close)="errorMessage = null">
+  </app-alert>
 
   <div class="form-wrapper">
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -38,4 +43,4 @@
       </div>
     </form>
   </div>
-</div>
+</app-layout>
