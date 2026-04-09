@@ -5,9 +5,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
-  );
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   // CORS habilitado para facilitar o desenvolvimento, mas deve ser configurado adequadamente para produção
   app.enableCors({
