@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="header">
+    <h1>Veículos</h1>
+    <button class="btn-primary" (click)="newVehicle()">+ Novo Veículo</button>
+  </div>
+
+  <div class="form-wrapper" *ngIf="showForm">
+    <vehicle-form
+      [vehicle]="selected"
+      (save)="onSave($event)"
+      (cancel)="onCancel()">
+    </vehicle-form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Placa</th><th>Chassi</th><th>Renavam</th>
+        <th>Modelo</th><th>Marca</th><th>Ano</th><th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of vehicles">
+        <td>{{ v.placa }}</td>
+        <td>{{ v.chassi }}</td>
+        <td>{{ v.renavam }}</td>
+        <td>{{ v.modelo }}</td>
+        <td>{{ v.marca }}</td>
+        <td>{{ v.ano }}</td>
+        <td class="actions">
+          <button class="btn-edit" (click)="edit(v)">Editar</button>
+          <button class="btn-delete" (click)="delete(v.id!)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

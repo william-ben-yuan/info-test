@@ -9,6 +9,10 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
 
+  // CORS habilitado para facilitar o desenvolvimento, mas deve ser configurado adequadamente para produção
+  app.enableCors({
+    origin: '*',
+  });
   await app.listen(process.env.PORT ?? 3000);
 }
 
